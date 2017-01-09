@@ -1,4 +1,4 @@
-package main;
+package main.Parser;
 
 
 public class ContextBuildException extends Exception{
