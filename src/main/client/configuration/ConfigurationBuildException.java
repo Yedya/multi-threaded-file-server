@@ -1,4 +1,4 @@
-package main.Configuration;
+package main.client.configuration;
 
 
 public class ConfigurationBuildException extends Exception{

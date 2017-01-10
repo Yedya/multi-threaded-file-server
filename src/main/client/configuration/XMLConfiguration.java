@@ -1,8 +1,8 @@
-package main.Configuration;
+package main.client.configuration;
 
-import main.Configuration.Parser.ParseException;
-import main.Configuration.Parser.Parser;
-import main.Configuration.Parser.XMLParser;
+import main.client.configuration.Parser.ParseException;
+import main.client.configuration.Parser.Parser;
+import main.client.configuration.Parser.XMLParser;
 
 import java.util.HashMap;
 import java.util.Map;

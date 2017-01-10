@@ -1,4 +1,4 @@
-package main.Configuration.Parser;
+package main.client.configuration.Parser;
 
 
 import java.util.Map;

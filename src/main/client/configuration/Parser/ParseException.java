@@ -1,4 +1,4 @@
-package main.Configuration.Parser;
+package main.client.configuration.Parser;
 
 public class ParseException extends Exception{
     String s1;

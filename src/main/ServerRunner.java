@@ -1,9 +1,9 @@
 package main;
 
 
-import main.Configuration.ConfigurationBuildException;
-import main.Configuration.ConfigurationBuilder;
-import main.Configuration.XMLConfiguration;
+import main.client.configuration.ConfigurationBuildException;
+import main.client.configuration.ConfigurationBuilder;
+import main.client.configuration.XMLConfiguration;
 
 public class ServerRunner {
     public static void main(String[] args) {

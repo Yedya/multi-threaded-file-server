@@ -1,4 +1,4 @@
-package main.Configuration.Parser;
+package main.client.configuration.Parser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,11 +8,9 @@ import org.w3c.dom.*;
 
 public class XMLParser implements Parser {
 
+
     private final String absolutePathToFile;
     private final String USERNAME = "username";
-    private final String SERVER_HOST = "server-host";
-    private final String DOWNLOAD_DIRECTORY = "download-dir";
-    private final String SERVER_PORT = "server-port";
 
     //constructor
     public XMLParser(String absolutePathToFile) {
@@ -68,6 +66,42 @@ public class XMLParser implements Parser {
             }
         }
 
-        return configMap;
+        if(checkValid(configMap))
+            return configMap;
+        else{
+            throw new ParseException("Parse failed: Map does not contain correct values");
+        }
+    }
+
+    //check if the map returned has the correct values
+    private boolean checkValid(Map<String, String> configMap){
+
+        final String SERVER_HOST = "server-host";
+        final String DOWNLOAD_DIRECTORY = "download-dir";
+        final String SERVER_PORT = "server-port";
+        final int CONFIG_MAX_LENGTH = 4;
+
+        boolean valid = false;
+
+        if(configMap.size() != CONFIG_MAX_LENGTH)
+            return false;
+
+        if(!configMap.containsKey(USERNAME))
+           return false;
+
+        if(!configMap.containsKey(SERVER_HOST))
+            return false;
+
+        if(!configMap.containsKey(DOWNLOAD_DIRECTORY))
+            return false;
+
+        if(!configMap.containsKey(SERVER_PORT))
+            return false;
+
+
+        if(configMap.values().contains(null))
+            return false;
+
+        return true;
     }
 }
