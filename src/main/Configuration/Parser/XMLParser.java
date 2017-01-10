@@ -1,4 +1,4 @@
-package main.Parser;
+package main.Configuration.Parser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import javax.xml.parsers.*;
 
 import org.w3c.dom.*;
 
-public class XMLParser implements ContextBuilder {
+public class XMLParser implements Parser {
 
     private final String absolutePathToFile;
     private final String USERNAME = "username";
@@ -20,7 +20,7 @@ public class XMLParser implements ContextBuilder {
     }
 
     //parses the file and creates a context in the form of a Map
-    public Map<String, String> buildContext() throws ContextBuildException {
+    public Map<String, String> parseToMap() throws ParseException{
 
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
@@ -39,7 +39,7 @@ public class XMLParser implements ContextBuilder {
             doc = db.parse(absolutePathToFile);
         } catch (Throwable e) {
             e.printStackTrace();
-            throw new ContextBuildException("Failure building Context");
+            throw new ParseException("Error parsing file");
         }
 
         /* The type Document in the line above is an org.w3c.dom.Document. From this
@@ -52,10 +52,10 @@ public class XMLParser implements ContextBuilder {
         NodeList children = root.getChildNodes(); //Get the child node of the root
 
         //Map contains context values
-        Map<String, String> ctx = new HashMap<>();
+        Map<String, String> configMap = new HashMap<>();
 
         //Get username from root node attribute
-        ctx.put(USERNAME, root.getAttribute(USERNAME));
+        configMap.put(USERNAME, root.getAttribute(USERNAME));
 
         //Find the elements database and driver
         for (int i = 0; i < children.getLength(); i++){ //Loop over the child nodes
@@ -64,10 +64,10 @@ public class XMLParser implements ContextBuilder {
             if (next instanceof Element){ //Check if it is an element node. There are 12 different types of Node
                 Element e = (Element) next; //Cast the general node to an element node
 
-                ctx.put(e.getNodeName(), e.getFirstChild().getNodeValue());
+                configMap.put(e.getNodeName(), e.getFirstChild().getNodeValue());
             }
         }
 
-        return ctx;
+        return configMap;
     }
 }
