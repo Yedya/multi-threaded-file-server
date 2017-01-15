@@ -1,8 +1,11 @@
 package main.client.configuration.Parser;
 
 
-import java.util.Map;
+import main.client.configuration.Configuration;
 
 public interface Parser {
-    Map<String, String> parseToMap() throws ParseException;
+    Configuration parse() throws ParseException;
 }
+
+
+

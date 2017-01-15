@@ -4,21 +4,25 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.*;
 
+import main.client.configuration.Configuration;
 import org.w3c.dom.*;
 
 public class XMLParser implements Parser {
 
-
-    private final String absolutePathToFile;
+    private Configuration configuration;
+    private final String relativePathToFile;
     private final String USERNAME = "username";
+    private final String SERVER_HOST = "server-host";
+    private final String DOWNLOAD_DIRECTORY = "download-dir";
+    private final String SERVER_PORT = "server-port";
 
     //constructor
-    public XMLParser(String absolutePathToFile) {
-        this.absolutePathToFile = absolutePathToFile;
+    public XMLParser(String relativePathToFile) {
+        this.relativePathToFile = relativePathToFile;
     }
 
     //parses the file and creates a context in the form of a Map
-    public Map<String, String> parseToMap() throws ParseException{
+    public Configuration parse() throws ParseException{
 
         DocumentBuilderFactory dbf;
         DocumentBuilder db;
@@ -34,7 +38,7 @@ public class XMLParser implements Parser {
         try {
             dbf = DocumentBuilderFactory.newInstance();
             db = dbf.newDocumentBuilder();
-            doc = db.parse(absolutePathToFile);
+            doc = db.parse(relativePathToFile);
         } catch (Throwable e) {
             e.printStackTrace();
             throw new ParseException("Error parsing file");
@@ -66,19 +70,18 @@ public class XMLParser implements Parser {
             }
         }
 
-        if(checkValid(configMap))
-            return configMap;
+        if(checkValid(configMap)) {
+            configuration = new Configuration(configMap.get(SERVER_HOST), configMap.get(DOWNLOAD_DIRECTORY), Integer.parseInt(configMap.get(SERVER_PORT)), configMap.get(USERNAME));
+            return configuration;
+        }
         else{
-            throw new ParseException("Parse failed: Map does not contain correct values");
+            throw new ParseException("Parse failed: Configuration Map does not contain correct values");
         }
     }
 
     //check if the map returned has the correct values
     private boolean checkValid(Map<String, String> configMap){
 
-        final String SERVER_HOST = "server-host";
-        final String DOWNLOAD_DIRECTORY = "download-dir";
-        final String SERVER_PORT = "server-port";
         final int CONFIG_MAX_LENGTH = 4;
 
         boolean valid = false;

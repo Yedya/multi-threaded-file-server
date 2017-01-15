@@ -23,7 +23,7 @@ public class WebServer {
 
     //The first 1024 ports require administrator privileges. We'll use 8080 instead. The range
     //of port numbers runs up to 2 ^ 16 = 65536 ports.
-    private static final int SERVER_PORT = 8080;
+    private static final int SERVER_PORT = 7777;
 
     //The boolean value keepRunning is used to control the while loop in the inner class called
     //Listener. The volatile keyword tells the JVM not to cache the value of keepRunning during
@@ -61,7 +61,6 @@ public class WebServer {
         new WebServer(); //Create an instance of a WebServer. This fires the constructor of WebServer() above on the main stack
     }
 
-
     /* The inner class Listener is a Runnable, i.e. a job that can be given to a Thread. The job that
      * the class has been given is to intercept incoming client requests and farm them out to other
      * threads. Each client request is in the form of a socket and will be handled by a separate new thread.
@@ -89,7 +88,6 @@ public class WebServer {
             }
         }
     }//End of inner class Listener
-
 
     /* The inner class HTTPRequest is a Runnable, i.e. a job that can be given to a Thread. The job that
      * the class has been given is to handle an individual client request, by reading information from the
@@ -126,3 +124,4 @@ public class WebServer {
         }
     }//End of inner class HTTPRequest
 }//End of class WebServer
+

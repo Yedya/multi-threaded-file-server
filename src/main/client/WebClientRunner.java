@@ -44,7 +44,6 @@ public class WebClientRunner {
                         System.out.println(threadName + " just woke up and closing socket...");
 
                         s.close(); //Tidy up
-
                     } catch (Exception e) { //Deal with the error here. A try/catch stops a programme crashing on error
                         System.out.println("Error: " + e.getMessage());
                     }//End of try /catch
