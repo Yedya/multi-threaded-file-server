@@ -9,7 +9,6 @@ import org.w3c.dom.*;
 
 public class XMLParser implements Parser {
 
-    private Configuration configuration;
     private final String relativePathToFile;
     private final String USERNAME = "username";
     private final String SERVER_HOST = "server-host";
@@ -71,8 +70,7 @@ public class XMLParser implements Parser {
         }
 
         if(checkValid(configMap)) {
-            configuration = new Configuration(configMap.get(SERVER_HOST), configMap.get(DOWNLOAD_DIRECTORY), Integer.parseInt(configMap.get(SERVER_PORT)), configMap.get(USERNAME));
-            return configuration;
+            return new Configuration(configMap.get(SERVER_HOST), configMap.get(DOWNLOAD_DIRECTORY), Integer.parseInt(configMap.get(SERVER_PORT)), configMap.get(USERNAME));
         }
         else{
             throw new ParseException("Parse failed: Configuration Map does not contain correct values");

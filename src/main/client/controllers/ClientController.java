@@ -18,7 +18,6 @@ public class ClientController {
     private boolean configured = false;
     private Socket s;
 
-
     //constructor
     public ClientController(ConfigurationBuilder configBuilder){
         this.configurationBuilder = configBuilder;
@@ -26,6 +25,7 @@ public class ClientController {
 
     //Delegates configuration to ConfigurationBuilder object
     public boolean configure(){
+
         if(configured){
             System.out.println("Configuration already created");
             return false;
@@ -43,10 +43,11 @@ public class ClientController {
 
     //connects to a remote server
     public boolean connect(){
-        try {
-            s = new Socket(configuration.getServerHost(), configuration.getServerPort()); //Connect to the server
+        String host = configuration.getServerHost();
+        int port = configuration.getServerPort();
 
-            //Get clientIp
+        try {
+            s = new Socket(host, port); //Connect to the server
 
             //Serialise / marshal a request to the server
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
