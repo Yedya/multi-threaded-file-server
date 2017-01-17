@@ -18,12 +18,12 @@ package main.server;
 import java.io.*; //Contains classes for all kinds of I/O activity
 import java.net.*; //Contains basic networking classes
 
-public class WebServer {
+class WebServer {
     private ServerSocket ss; //A server socket listens on a port number for incoming requests
 
     //The first 1024 ports require administrator privileges. We'll use 8080 instead. The range
     //of port numbers runs up to 2 ^ 16 = 65536 ports.
-    private static final int SERVER_PORT = 7777;
+    private static final int SERVER_PORT = 8080;
 
     //The boolean value keepRunning is used to control the while loop in the inner class called
     //Listener. The volatile keyword tells the JVM not to cache the value of keepRunning during
@@ -32,7 +32,7 @@ public class WebServer {
 
 
     //A null constructor for the WebServer class
-    private WebServer() {
+    WebServer() {
         try { //Try the following. If anything goes wrong, the error will be passed to the catch block
 
             ss = new ServerSocket(SERVER_PORT); //Start the server socket listening on port 8080
@@ -56,10 +56,7 @@ public class WebServer {
         }
     }
 
-    //A main method is required to start a standard Java application
-    public static void main(String[] args) {
-        new WebServer(); //Create an instance of a WebServer. This fires the constructor of WebServer() above on the main stack
-    }
+
 
     /* The inner class Listener is a Runnable, i.e. a job that can be given to a Thread. The job that
      * the class has been given is to intercept incoming client requests and farm them out to other

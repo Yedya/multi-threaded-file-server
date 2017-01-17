@@ -1,4 +1,7 @@
-package main.response;
+package main.http.response;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * Created by seanking on 17/01/2017.
