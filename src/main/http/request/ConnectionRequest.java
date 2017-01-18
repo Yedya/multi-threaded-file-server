@@ -17,7 +17,6 @@ public class ConnectionRequest extends Request {
         Socket socket = null;
 
         try { //Try the following. If anything goes wrong, the error will be passed to the catch block
-
             socket = super.getSocket();
 
             //Read in the request from the remote computer to this programme. This process is called Deserialization or Unmarshalling

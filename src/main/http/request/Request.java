@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by seanking on 17/01/2017.
  */
-abstract class Request implements Serializable, Runnable{
+public abstract class Request implements Serializable, Runnable{
     private String clientIp;
     private String serverHost;
     private int serverPort;

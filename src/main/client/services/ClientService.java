@@ -42,6 +42,8 @@ public class ClientService {
 
         if(configuration == null)
             throw new ConnectionRequestException("Configuration object is null");
+        else
+            this.configuration = configuration;
 
         String host = configuration.getServerHost();
         int port = configuration.getServerPort();
