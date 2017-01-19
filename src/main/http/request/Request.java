@@ -8,17 +8,18 @@ import java.util.Date;
  * Created by seanking on 17/01/2017.
  */
 public abstract class Request implements Serializable, Runnable{
+    private static final long serialVersionUID = 1L;
+
     private String clientIp;
     private String serverHost;
     private int serverPort;
     private Date requestDate;
     private Socket socket;
 
-    Request(String clientIp, String serverHost, int serverPort, Socket socket){
+    Request(String clientIp, String serverHost, int serverPort){
         this.clientIp = clientIp;
         this.serverHost = serverHost;
         this. serverPort = serverPort;
-        this.socket = socket;
     }
 
     String getClientIp() {
@@ -40,4 +41,6 @@ public abstract class Request implements Serializable, Runnable{
     Socket getSocket() {
         return socket;
     }
+
+    public void setSocket(Socket s){this.socket = s;}
 }

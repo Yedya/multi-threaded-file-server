@@ -6,13 +6,20 @@ import java.util.Date;
 /**
  * Created by seanking on 17/01/2017.
  */
-abstract class Response {
+public abstract class Response {
+    private static final long serialVersionUID = 1L;
     private String clientIp;
     private String serverHost;
     private int serverPort;
     private Date requestDate;
     private Date responseDate;
     private Socket socket;
+
+    private String message;
+
+    Response(){
+
+    }
 
     Response(String clientIp, String serverHost, int serverPort){
         this.clientIp = clientIp;
@@ -42,5 +49,13 @@ abstract class Response {
 
     public Socket getSocket() {
         return socket;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

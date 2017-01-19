@@ -1,39 +1,48 @@
 package main.http.request;
 
-import java.io.ObjectInputStream;
+import main.http.request.errorHandling.RequestHandlerException;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
+import java.io.Serializable;
 
 /**
  * Created by seanking on 17/01/2017.
  */
-public class ConnectionRequest extends Request {
+public class ConnectionRequest extends Request implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private static boolean connected = false;
+    private volatile boolean keepRunning = true;
 
-    public ConnectionRequest(String clientIp, String serverHost, int serverPort, Socket socket) {
-        super(clientIp, serverHost, serverPort, socket);
+    public ConnectionRequest(String clientIp, String serverHost, int serverPort) {
+        super(clientIp, serverHost, serverPort);
     }
 
     public void run() {
-        Socket socket = null;
+        if(connected){
+            //Create a new request handler to handle the incoming request
+            RequestHandler requestHandler = new RequestHandler(super.getSocket());
 
-        try { //Try the following. If anything goes wrong, the error will be passed to the catch block
-            socket = super.getSocket();
+            //handle the request
+            try {
+                Request request = requestHandler.deserialize(super.getSocket());
+                requestHandler.start(request, "T- 1");
+            } catch (RequestHandlerException e) {
+            }
+        }
+        else{
+            connected = true;
+            System.out.println("Connection Established");
 
-            //Read in the request from the remote computer to this programme. This process is called Deserialization or Unmarshalling
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            Object command = in.readObject(); //Deserialise the request into an Object
-            System.out.println(command);
+            String response = "Connection to server " + super.getServerHost() + " has been made.";
+            ObjectOutputStream out = null;
 
-            //Write out a response back to the client. This process is called Serialization or Marshalling
-            String message = "<h1>Happy Days</h1>";
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            out.writeObject(message);
-            out.flush();
-            out.close(); //Tidy up after and don't wolf up resources unnecessarily
-
-        } catch (Exception e) { //Something nasty happened. We should handle error gracefully, i.e. not like this...
-            System.out.println("Error processing request from " + socket.getRemoteSocketAddress());
-            e.printStackTrace();
+            try {
+                out = new ObjectOutputStream(super.getSocket().getOutputStream());
+                out.writeObject(response);
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

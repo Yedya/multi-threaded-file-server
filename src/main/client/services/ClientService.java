@@ -4,6 +4,7 @@ import main.client.configuration.Configuration;
 import main.http.request.ConnectionRequest;
 import main.http.request.errorHandling.ConnectionRequestException;
 import main.http.response.ConnectionResponse;
+import main.http.response.Response;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -58,15 +59,17 @@ public class ClientService {
             //Serialise / marshal a request to the server
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
-            out.writeObject(new ConnectionRequest(clientIp, host, port, socket)); //Serialise
+            out.writeObject(new ConnectionRequest(clientIp, host, port)); //Serialise
             out.flush(); //Ensure all data sent by flushing buffers
 
             Thread.yield(); //Pause the current thread for a short time (not used much)
 
             //Handle response from server
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            response = (ConnectionResponse)in.readObject();
 
+            //response = (ConnectionResponse)in.readObject();
+
+            System.out.println(in.readObject() + "working");
             //response response = (response)in.readObject();
             //logger.log(response);
 

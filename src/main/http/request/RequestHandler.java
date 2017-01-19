@@ -18,13 +18,14 @@ public class RequestHandler{
         this.socket = socket; //Assign to the instance variable sock the value passed to the constructor.
     }
 
+    //Deserializes incoming request and returns the correct request type
     public Request deserialize(Socket socket) throws RequestHandlerException {
         Request request;
+        ObjectInputStream in;
 
         try{
             //This process is called Deserialization or Unmarshalling
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            //Deserialize the request into a Request Object
+            in = new ObjectInputStream(socket.getInputStream());
             request = (Request) in.readObject();
         } catch(Exception e){
             throw new RequestHandlerException("Error while trying to deserialize");
@@ -38,8 +39,8 @@ public class RequestHandler{
         return null;
     }
 
-
     public void start(Request request, String name){
+        request.setSocket(this.socket);
         new Thread(request, name).start();
     }
 }
