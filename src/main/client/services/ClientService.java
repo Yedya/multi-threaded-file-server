@@ -70,7 +70,7 @@ public class ClientService {
 
             System.out.println(in.readObject() + "working");
             //response response = (response)in.readObject();
-            //logger.log(response);
+            //logging.log(response);
 
             //String response = (String) in.readObject(); //Deserialise
             //Display connection message to client
@@ -108,7 +108,7 @@ public class ClientService {
 
             System.out.println(in.readObject() + "working");
             //response response = (response)in.readObject();
-            //logger.log(response);
+            //logging.log(response);
 
             //String response = (String) in.readObject(); //Deserialise
             //Display connection message to client
