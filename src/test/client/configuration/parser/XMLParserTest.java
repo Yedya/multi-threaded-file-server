@@ -22,7 +22,6 @@ class XMLParserTest {
     @Test
     public void testConfigurationDoesntGetCreatedForInvalidXMLFile() {
         XMLParser p = new XMLParser("src/test/configuration/parser/invalid-file.xml");
-
         try {
             p.parse();
             fail("Successfully parsed invalid file");

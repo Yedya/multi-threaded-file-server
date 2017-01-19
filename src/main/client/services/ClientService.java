@@ -2,6 +2,7 @@ package main.client.services;
 
 import main.client.configuration.Configuration;
 import main.http.request.ConnectionRequest;
+import main.http.request.TestRequest;
 import main.http.request.errorHandling.ConnectionRequestException;
 import main.http.response.ConnectionResponse;
 import main.http.response.Response;
@@ -18,6 +19,7 @@ public class ClientService {
     private Configuration configuration;
     private String clientIp;
     private boolean connected = false;
+    Socket socket;
 
     private static ClientService instance = null;
 
@@ -32,14 +34,11 @@ public class ClientService {
         }
         return instance;
     }
-    //public ClientService(Configuration configuration){
-       // this.configuration = configuration;
-   // }
 
     //connects to a remote server
-    public ConnectionResponse connect(Configuration configuration) throws ConnectionRequestException {
+    public void connect(Configuration configuration) throws ConnectionRequestException {
         if(connected)
-            return null;
+            throw new ConnectionRequestException("Already connected");
 
         if(configuration == null)
             throw new ConnectionRequestException("Configuration object is null");
@@ -51,7 +50,7 @@ public class ClientService {
         ConnectionResponse response = null;
 
         try {
-            Socket socket = new Socket(host, port); //Connect to the server
+            socket = new Socket(host, port); //Connect to the server
 
             //Set clientIp
             this.clientIp = socket.getLocalAddress().getHostAddress();
@@ -76,10 +75,48 @@ public class ClientService {
             //String response = (String) in.readObject(); //Deserialise
             //Display connection message to client
             //System.out.println(response);
+
+            connected = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectionRequestException("Problem with stream");
+        }
+    }
+
+    public void testRequest(){
+        String host = configuration.getServerHost();
+        int port = configuration.getServerPort();
+
+        try {
+            socket = new Socket(host, port); //Connect to the server
+
+            //Set clientIp
+            this.clientIp = socket.getLocalAddress().getHostAddress();
+
+            //Serialise / marshal a request to the server
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+            out.writeObject(new TestRequest(clientIp, host, port)); //Serialise
+            out.flush(); //Ensure all data sent by flushing buffers
+
+            Thread.yield(); //Pause the current thread for a short time (not used much)
+
+            //Handle response from server
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
+            //response = (ConnectionResponse)in.readObject();
+
+            System.out.println(in.readObject() + "working");
+            //response response = (response)in.readObject();
+            //logger.log(response);
+
+            //String response = (String) in.readObject(); //Deserialise
+            //Display connection message to client
+            //System.out.println(response);
+
+            connected = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return response;
     }
 }

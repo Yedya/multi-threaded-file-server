@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class ConnectionRequest extends Request implements Serializable {
     private static final long serialVersionUID = 1L;
     private static boolean connected = false;
-    private volatile boolean keepRunning = true;
 
     public ConnectionRequest(String clientIp, String serverHost, int serverPort) {
         super(clientIp, serverHost, serverPort);

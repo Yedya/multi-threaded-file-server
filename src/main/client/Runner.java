@@ -33,7 +33,7 @@ public class Runner {
                     client.connect();
                     break;
                 case 2:
-                    //client.displayFiles();
+                    client.testRequest();
                     break;
                 case 3:
                     fileName = console.next();

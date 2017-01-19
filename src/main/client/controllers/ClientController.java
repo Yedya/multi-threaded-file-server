@@ -55,4 +55,9 @@ public class ClientController {
 
         return true;
     }
+
+    public boolean testRequest(){
+            clientService.testRequest();
+        return true;
+    }
 }

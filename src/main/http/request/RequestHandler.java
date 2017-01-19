@@ -35,6 +35,9 @@ public class RequestHandler{
         if(request instanceof ConnectionRequest){
             return (ConnectionRequest)request;
         }
+        else if(request instanceof TestRequest){
+            return (TestRequest)request;
+        }
 
         return null;
     }
